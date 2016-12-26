@@ -75,7 +75,7 @@ app.post('/webhook', line.validator.validateSignature(), function(req, res, next
   })
   Promise
     .all(promises)
-    .then(() => res.json({ success: true }))
+    .then(() => res.status(200))
 })
 
 // catch 404 and forward to error handler
