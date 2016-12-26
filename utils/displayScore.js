@@ -4,7 +4,7 @@ module.exports = function(score) {
     console.log({ playerObj, score: playerObj.score })
     var name = playerObj.name
     var score = playerObj.score
-    scoreStr += name + ': ' + score
+    scoreStr += name + ': ' + score + '\n'
   })
   return scoreStr.trim()
 }
