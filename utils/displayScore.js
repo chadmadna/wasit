@@ -1,10 +1,10 @@
 module.exports = function(score) {
-  console.log(score)
   var scoreStr = ''
-  Object.keys(score).forEach(function(playerObj, i) {
+  score.forEach(function(playerObj) {
+    console.log({ playerObj, score: playerObj.score })
     var name = playerObj.name
     var score = playerObj.score
-    scoreStr += name + ': ' + score.toString()
+    scoreStr += name + ': ' + score
   })
   return scoreStr.trim()
 }
