@@ -30,6 +30,7 @@ app.get('/', function (req, res, next) {
 })
 
 app.post('/webhook', line.validator.validateSignature(), function(req, res, next) {
+  console.log(req.body.events)
   var promises = req.body.events.map(event => {
     parseCommand(event.message.text, function (err, results) {
       if (err) {
