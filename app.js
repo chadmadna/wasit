@@ -55,7 +55,16 @@ app.post('/webhook/', line.validator.validateSignature(), function(req, res, nex
             ]
           })
       } else {
-        return null
+        return line.client
+          .replyMessage({
+            replyToken: event.replyToken,
+            messages: [
+              {
+                type: 'text',
+                text: event.message.text
+              }
+            ]
+          })
       }
     })
   })
