@@ -1,13 +1,13 @@
-const express = require('express')
-const line = require('node-line-bot-api')
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
-const parseCommand = require('./utils/parseCommand')
-const displayScore = require('./utils/displayScore')
+var express = require('express')
+var line = require('node-line-bot-api')
+var mongoose = require('mongoose')
+var bodyParser = require('body-parser')
+var parseCommand = require('./utils/parseCommand')
+var displayScore = require('./utils/displayScore')
 
 require('dotenv').config()
 
-const app = express()
+var app = express()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -26,7 +26,7 @@ line.init({
 })
 
 app.post('/webhook/', line.validator.validateSignature(), function(req, res, next) {
-  const promises = req.body.events.map(event => {
+  var promises = req.body.events.map(event => {
     parseCommand(event.message.text, function (err, results) {
       if (err) {
         return line.client
@@ -62,7 +62,7 @@ app.post('/webhook/', line.validator.validateSignature(), function(req, res, nex
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  const err = new Error('Not Found')
+  var err = new Error('Not Found')
   err.status = 404
   next(err)
 })
