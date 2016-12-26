@@ -42,16 +42,7 @@ app.post('/webhook', line.validator.validateSignature(), function(req, res, next
   var promises = req.body.events.map(event => {
     parseCommand(event.message.text, function (err, results) {
       if (err) {
-        return line.client
-          .replyMessage({
-            replyToken: event.replyToken,
-            messages: [
-              {
-                type: 'text',
-                text: 'eh apesi'
-              }
-            ]
-          })
+        return null
       } else if (!err && results) {
         return line.client
           .replyMessage({
