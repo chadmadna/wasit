@@ -25,6 +25,10 @@ line.init({
   channelSecret: process.env.CHANNEL_SECRET
 })
 
+app.get('/', function (req, res, next) {
+  res.send('It works!')
+})
+
 app.post('/webhook/', line.validator.validateSignature(), function(req, res, next) {
   var promises = req.body.events.map(event => {
     parseCommand(event.message.text, function (err, results) {
