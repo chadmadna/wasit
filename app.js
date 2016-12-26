@@ -29,6 +29,10 @@ app.get('/', function (req, res, next) {
   res.send('It works!')
 })
 
+app.get('/webhook', function (req, res, next) {
+  res.send('Success!')
+})
+
 app.post('/webhook', line.validator.validateSignature(), function(req, res, next) {
   console.log(req.body.events)
   var promises = req.body.events.map(event => {
