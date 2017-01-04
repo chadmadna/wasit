@@ -1,4 +1,5 @@
 var Player = require('../models/player')
+var displayScore = require('./displayScore')
 
 module.exports = function(text, cb) {
   var textArray = text.trim().split(' ')
@@ -15,7 +16,7 @@ module.exports = function(text, cb) {
         if (err) {
           cb(err)
         } else {
-          cb(null, docs)
+          cb(null, displayScore(docs))
         }
       })
     // Increment or decrement score
@@ -30,7 +31,7 @@ module.exports = function(text, cb) {
             if (err) {
               cb(err)
             } else {
-              cb(null, docs)
+              cb(null, displayScore(docs))
             }
           })
         }
@@ -43,7 +44,7 @@ module.exports = function(text, cb) {
         var player = new Player({ name })
         player.save(function(err, product, numAffected) {
           if (!err) {
-            cb(null, null)
+            cb(null, `Added ${name} to the game!`)
           } else {
             cb(err)
           }
@@ -51,7 +52,7 @@ module.exports = function(text, cb) {
       } else if (command === 'delete') {
         Player.remove({ name }, function (err) {
           if (!err) {
-            cb(null, null)
+            cb(null, `Deleted ${name} from the game!`)
           } else {
             cb(err)
           }
@@ -61,7 +62,7 @@ module.exports = function(text, cb) {
       }
     // Invalid syntax on correct call
     } else {
-      cb(new Error('ParseError'))
+      cb(null, 'mong naon gblg??')
     }
   }
 }

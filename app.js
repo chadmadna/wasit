@@ -3,7 +3,9 @@ var line = require('node-line-bot-api')
 var mongoose = require('mongoose')
 var bodyParser = require('body-parser')
 var parseCommand = require('./utils/parseCommand')
-var displayScore = require('./utils/displayScore')
+
+var adminID = 'Uc0738455f8ec77f952028297ac5f3eb9'
+var groupID = 'C685f6078cb603ed5194af3ead9cee88e'
 
 require('dotenv').config()
 
@@ -40,22 +42,35 @@ app.get('/webhook', function (req, res, next) {
 app.post('/webhook', line.validator.validateSignature(), function(req, res, next) {
   console.log(req.body.events)
   var promises = req.body.events.map(event => {
-    parseCommand(event.message.text, function (err, results) {
-      if (err) {
-        return null
-      } else if (!err && results) {
-        return line.client
-          .replyMessage({
-            replyToken: event.replyToken,
-            messages: [
-              {
-                type: 'text',
-                text: displayScore(results)
-              }
-            ]
-          })
-      }
-    })
+    if (event.source.userId === adminID && event.source.type === 'user') {
+      return line.client
+        .pushMessage({
+          to: groupID,
+          messages: [
+            {
+              type: 'text',
+              text: event.message.text
+            }
+          ]
+        })
+    } else {
+      parseCommand(event.message.text, function (err, results) {
+        if (err) {
+          return null
+        } else if (!err && results) {
+          return line.client
+            .replyMessage({
+              replyToken: event.replyToken,
+              messages: [
+                {
+                  type: 'text',
+                  text: results
+                }
+              ]
+            })
+        }
+      })
+    }
   })
   Promise
     .all(promises)
